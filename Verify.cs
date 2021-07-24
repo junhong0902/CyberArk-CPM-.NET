@@ -114,12 +114,6 @@ namespace CPMPlugin.DLL
             {
                 #region Logic
 
-
-                //string username = "admin01";
-                //string targetAccountPassword = "CyberArk1";
-                //string address = "54.251.177.238:4712";
-                //string targetAccountNewPassword = "NewCyberArk1!";
-
                 /////////////// Put your code here ////////////////////////////
 
                 // If want to call restapi directly from dll
