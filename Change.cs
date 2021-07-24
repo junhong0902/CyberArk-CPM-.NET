@@ -126,7 +126,7 @@ namespace CPMPlugin.DLL
                 options.AddArgument("--window-size=800,600");
                 //options.AddArgument("--no-sandbox");
                 options.AddArgument("--incognito");
-                //options.AddArgument("--headless"); //Comment this for debugging. CPM runs in headless mode!
+                options.AddArgument("--headless"); //Comment this for debugging. CPM runs in headless mode!
 
                 //IWebDriver driver = new ChromeDriver(@"C:\Users\junhong.choo\Documents\GitHub\Selenium-CSharp\Selenium-CSharp\Drivers\", options);
                 IWebDriver driver = new ChromeDriver(chromedriverpath, options);
