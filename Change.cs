@@ -111,11 +111,6 @@ namespace CPMPlugin.DLL
             {
 
                 #region Logic
-                /////////////// Put your code here ////////////////////////////
-
-                //string username = "admin01";
-                //string targetAccountPassword = "NewCyberArk1!";
-                //string targetAccountNewPassword = "CyberArk1";
 
                 /////////////// Put your code here ////////////////////////////
 
