@@ -17,11 +17,15 @@ namespace CPMPlugin.DLL
     {
         #region Consts
 
-        public static readonly string PORT = "port";
-
         public string username;
         public string address;
+        public string port;
         public string targetAccountPassword;
+
+        public int CPMCode;
+        public bool InfoGather;
+
+        public string result;
         #endregion
 
         #region constructor
@@ -70,8 +74,9 @@ namespace CPMPlugin.DLL
                 // A mandatory parameter is a parameter that must be defined in the account.
                 // TargetAccount.AccountProp is a dictionary that provides access to all the file categories of the target account.
                 // An exception will be thrown if the parameter does not exist in the account.
-                //username = ParametersAPI.GetMandatoryParameter("username", TargetAccount.AccountProp);
-                //address = ParametersAPI.GetMandatoryParameter("address", TargetAccount.AccountProp);
+                username = ParametersAPI.GetMandatoryParameter("username", TargetAccount.AccountProp);
+                address = ParametersAPI.GetMandatoryParameter("address", TargetAccount.AccountProp);
+                port = ParametersAPI.GetMandatoryParameter("port", TargetAccount.AccountProp);
                 // Example: Fetch optional parmetere - Port.
                 // An optional parameter is a parameter that can be defined in the account or in the platform.
                 // TargetAccount.ExtraInfoProp is a dictionary that provieds access to all the platform parameters of the target account.
@@ -86,86 +91,94 @@ namespace CPMPlugin.DLL
                 #region Fetch Account's Passwords
 
                 // Example : Fetch the target account's password.
-                //targetAccountPassword = TargetAccount.CurrentPassword.convertSecureStringToString();
+                targetAccountPassword = TargetAccount.CurrentPassword.convertSecureStringToString();
 
                 // Example : Fetch the target account's new password.
                 //string targetAccountNewPassword = TargetAccount.NewPassword.convertSecureStringToString();
 
                 #endregion
+                InfoGather = true;
+
+
             }
-            catch
+            catch (Exception ex)
             {
-                RC = 9000;
-                platformOutput.Message = "Failed to retrieve information from CPM";
+                CPMCode = HandleGeneralError(ex, ref platformOutput);
+                InfoGather = false;
             }
 
 
-           
 
 
-            try
+            if (InfoGather)
             {
                 #region Logic
 
 
-                string username = "admin01";
-                string targetAccountPassword = "CyberArk1";
-                string address = "54.251.177.238:4712";
+                //string username = "admin01";
+                //string targetAccountPassword = "CyberArk1";
+                //string address = "54.251.177.238:4712";
                 //string targetAccountNewPassword = "NewCyberArk1!";
 
                 /////////////// Put your code here ////////////////////////////
 
                 // If want to call restapi directly from dll
-                string BASEURL = @"https://" + address + @"/Konfigurator/REST";
+                string BASEURL = @"https://" + address + ":" + port + @"/Konfigurator/REST";
                 var client = new RestClient(BASEURL, HttpVerb.POST);
 
                 string parameter = @"/login?userName=" + username + @"&pass=" + targetAccountPassword;
                 Console.WriteLine(BASEURL + parameter);
 
-                string result = client.MakeRequest(parameter);
-                Console.WriteLine(result);
+                try
+                {
+                    result = client.MakeRequest(parameter);
+                    Console.WriteLine(result);
+                    if (result.Trim().Contains("<entry><content>"))
+                    {
+                        CPMCode = 0;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    if (ex.ToString().Contains("401"))
+                    {
+                        CPMCode = 8100;
+                        platformOutput.Message = "Unauthorized";
+                        Console.WriteLine("Unauthorized");
+                    }
+                    else if (ex.ToString().Contains("connection fail"))
+                    {
+                        CPMCode = 8000;
+                        platformOutput.Message = "Connection failure";
+                        Console.WriteLine("Connection failure");
+                    }
+                }
 
-                if (result.Trim().Contains("<entry><content>"))
-                {
-                    RC = 0;
-                }
-                else if (result.Trim().Contains("Check username and password"))
-                {
-                    RC = 8100;
-                    platformOutput.Message = "Wrong Credential";
-                    Console.WriteLine("Wrong Credential");
-                }
-                else
-                {
-                    RC = 8000;
-                    platformOutput.Message = "Connection failure";
-                    Console.WriteLine("Connection failure");
-                }
-                
+                /*
+                 * Logout not required, not cached
                 //Logout
-                result = client.MakeRequest("/logout");
-                //Console.WriteLine(result);
-                //dynamic respond = JsonConvert.DeserializeObject(json);
-                //string ValidID = respond.TicketID;
+                try
+                {
+                    result = client.MakeRequest("/logout");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+                */
 
-                RC = 0;
+
+
                 /////////////// Put your code here ////////////////////////////
                 #endregion Logic
-
-            }
-            catch (Exception ex)
-            {
-                RC = HandleGeneralError(ex, ref platformOutput);
-            }
-            finally
-            {
-                Logger.MethodEnd();
             }
 
             // Important:
             // 1.RC must be set to 0 in case of success, or 8000-9000 in case of an error.
             // 2.In case of an error, platformOutput.Message must be set with an informative error message, as it will be displayed to end user in PVWA.
             //   In case of success (RC = 0), platformOutput.Message can be left empty as it will be ignored.
+            RC = CPMCode;
+            Logger.MethodEnd();
             return RC;
 
         }

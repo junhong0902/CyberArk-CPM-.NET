@@ -15,8 +15,17 @@ namespace CPMPlugin.DLL
     {
         #region Consts
 
-        public static readonly string USERNAME = "username";
-        public static readonly string PORT = "port";
+        public string username;
+        public string address;
+        public string port;
+        public string targetAccountPassword;
+        public string targetAccountNewPassword;
+        public string chromedriverpath;
+
+        public int CPMCode;
+        public bool InfoGather;
+
+        public string result;
 
         #endregion
 
@@ -59,20 +68,20 @@ namespace CPMPlugin.DLL
 
             try
             {
-
                 #region Fetch Account Properties (FileCategories)
-                /*
                 // Example: Fetch mandatory parameter - Username.
                 // A mandatory parameter is a parameter that must be defined in the account.
                 // TargetAccount.AccountProp is a dictionary that provides access to all the file categories of the target account.
                 // An exception will be thrown if the parameter does not exist in the account.
-                string username = ParametersAPI.GetMandatoryParameter(USERNAME, TargetAccount.AccountProp);
-
+                username = ParametersAPI.GetMandatoryParameter("username", TargetAccount.AccountProp);
+                address = ParametersAPI.GetMandatoryParameter("address", TargetAccount.AccountProp);
+                port = ParametersAPI.GetMandatoryParameter("port", TargetAccount.AccountProp);
+                chromedriverpath = ParametersAPI.GetMandatoryParameter("chromedriverpath", TargetAccount.AccountProp);
                 // Example: Fetch optional parmetere - Port.
                 // An optional parameter is a parameter that can be defined in the account or in the platform.
                 // TargetAccount.ExtraInfoProp is a dictionary that provieds access to all the platform parameters of the target account.
                 // An exception will be thrown if the parameter does not exist in neither the account or the platform.
-                string strPort = ParametersAPI.GetOptionalParameter(PORT, TargetAccount.AccountProp, TargetAccount.ExtraInfoProp);
+                //string strPort = ParametersAPI.GetOptionalParameter(PORT, TargetAccount.AccountProp, TargetAccount.ExtraInfoProp);
 
                 // Note: To fetch Logon, Reconcile, Master or Usage account properties,
                 // replace the TargetAccount object with the relevant account's object.
@@ -82,46 +91,56 @@ namespace CPMPlugin.DLL
                 #region Fetch Account's Passwords
 
                 // Example : Fetch the target account's password.
-                string targetAccountPassword = TargetAccount.CurrentPassword.convertSecureStringToString();
+                targetAccountPassword = TargetAccount.CurrentPassword.convertSecureStringToString();
 
                 // Example : Fetch the target account's new password.
-                string targetAccountNewPassword = TargetAccount.NewPassword.convertSecureStringToString();
-                */
+                targetAccountNewPassword = TargetAccount.NewPassword.convertSecureStringToString();
+
                 #endregion
+                InfoGather = true;
 
 
+            }
+            catch (Exception ex)
+            {
+                CPMCode = HandleGeneralError(ex, ref platformOutput);
+                InfoGather = false;
+            }
+
+            if (InfoGather)
+            {
 
                 #region Logic
                 /////////////// Put your code here ////////////////////////////
 
-                string username = "admin01";
-                string targetAccountPassword = "NewCyberArk1!";
-                string targetAccountNewPassword = "CyberArk1";
+                //string username = "admin01";
+                //string targetAccountPassword = "NewCyberArk1!";
+                //string targetAccountNewPassword = "CyberArk1";
 
                 /////////////// Put your code here ////////////////////////////
-                string url = "https://54.251.177.238:4712/Konfigurator/html/html-ui.html?anonym=true&app=Konfigurator";
+
+                string url = @"https://" + address + ":" + port + @"/Konfigurator/html/html-ui.html?anonym=true&app=Konfigurator";
                 ChromeOptions options = new ChromeOptions();
 
                 options.AcceptInsecureCertificates = true;
                 options.AddArgument("--window-size=800,600");
                 //options.AddArgument("--no-sandbox");
                 options.AddArgument("--incognito");
-                options.AddArgument("--headless"); //Comment this for debugging. CPM runs in headless mode!
+                //options.AddArgument("--headless"); //Comment this for debugging. CPM runs in headless mode!
 
                 //IWebDriver driver = new ChromeDriver(@"C:\Users\junhong.choo\Documents\GitHub\Selenium-CSharp\Selenium-CSharp\Drivers\", options);
-                IWebDriver driver = new ChromeDriver(@"C:\Program Files (x86)\CyberArk\Password Manager\bin\lib\", options);
+                IWebDriver driver = new ChromeDriver(chromedriverpath, options);
                 driver.Navigate().GoToUrl(url);
                 System.Threading.Thread.Sleep(8000);
                 try
                 {
-                    Console.WriteLine("location=");
-                    Console.WriteLine(driver.FindElement(By.XPath("/html/body/div/canvas")).Location);
+                    driver.FindElement(By.XPath("/html/body/div/canvas"));
                 }
                 catch
                 {
                     RC = 8000;
                     platformOutput.Message = "Connection failure";
-                    Console.WriteLine("cannot find element");
+                    Console.WriteLine("Connection failure");
                 }
 
 
@@ -188,25 +207,18 @@ namespace CPMPlugin.DLL
                 cClick(driver, canvas, 740, 30);
                 System.Threading.Thread.Sleep(2000);
 
-                RC = 0;
+                CPMCode = 0;
+            }
                 /////////////// Put your code here ////////////////////////////
                 #endregion Logic
 
-            }
-            catch (Exception ex)
-            {
-                RC = HandleGeneralError(ex, ref platformOutput);
-            }
-            finally
-            {
+                // Important:
+                // 1.RC must be set to 0 in case of success, or 8000-9000 in case of an error.
+                // 2.In case of an error, platformOutput.Message must be set with an informative error message, as it will be displayed to end user in PVWA.
+                //   In case of success (RC = 0), platformOutput.Message can be left empty as it will be ignored.
+                RC = CPMCode;
                 Logger.MethodEnd();
-            }
-
-            // Important:
-            // 1.RC must be set to 0 in case of success, or 8000-9000 in case of an error.
-            // 2.In case of an error, platformOutput.Message must be set with an informative error message, as it will be displayed to end user in PVWA.
-            //   In case of success (RC = 0), platformOutput.Message can be left empty as it will be ignored.
-            return RC;
+                return RC;
 
         }
 

@@ -1,12 +1,14 @@
-<Device Name="">
+<Device Name="Website">
   <Policies>
-       <Policy ID="" PlatformBaseID="" PlatformBaseProtocol="" PlatformBaseType="" AutoChangeOnAdd="No" AutoVerifyOnAdd="No">
+       <Policy ID="McAfeeWebGateway" PlatformBaseID="GenericWebApp" PlatformBaseType="Website" PlatformBaseProtocol="Https" AutoChangeOnAdd="No" AutoVerifyOnAdd="No">
           <Properties>
             <Required>
 				        <Property Name="Username" />
+						<Property Name="Address" />
+						<Property Name="Port" />
             </Required>
             <Optional>
-				        <Property Name="Address" />
+				        <Property Name="WebApplicationID" />
 			      </Optional>
          </Properties>
 		 <LinkedPasswords>
@@ -14,7 +16,7 @@
 			  <Link Name="ReconcileAccount" PropertyIndex="3" />
      </LinkedPasswords>
 		 <ConnectionComponents>
-			  <ConnectionComponent Id=""/>
+			  <ConnectionComponent Id="PSM-Jenkins"/>
 		 </ConnectionComponents>
      <TicketingSystem EnterTicketingInfo="No" ValidateTicketNumber="No" />
     </Policy>
