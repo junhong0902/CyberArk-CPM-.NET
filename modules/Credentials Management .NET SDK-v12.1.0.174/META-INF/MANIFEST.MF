@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Created-By: 1.8.0_121 (Oracle Corporation)
+
+Name: CyberArk.Extensions.Utilties.dll
+SHA-256-Digest: 5BA7U5anDwmlpGI6KZwQhkWe2E0WDO4V7tFsuRbQUKY=
+
+Name: CyberArk.Extensions.Plugin.Template.zip
+SHA-256-Digest: XvrCaG+GLNIRQqRSH0Fnxuio7qBf+2NursJpZTfh68w=
+
+Name: Castle.Core.dll
+SHA-256-Digest: Jr0h1XvFIvI0A+52JbAv+E/jGT4d5LQP0XCskgE47oo=
+
+Name: CyberArk.Services.Exceptions.dll
+SHA-256-Digest: r8wvACVLfa8kaP2oLQF8mqEJ4Z5Fk3Wz3Pg4znDlzns=
+
+Name: CyberArk.Extensions.Infra.Common.dll
+SHA-256-Digest: pa0s1WP61E/8ty20/D0OeySNoLfEU5Vhht3vaz6/slM=
+
+Name: Castle.Windsor.dll
+SHA-256-Digest: CATN8RzgNDGvSMy/7WnU6POwsijeYjCxuKYa7lLYg0c=
+
+Name: CANetPluginInvoker.exe
+SHA-256-Digest: LsUrvbKWFoAgypM+NViMTujTyiDWxZ8g+vjFrVdRh60=
+
+Name: CyberArk.Extensions.Plugins.Models.dll
+SHA-256-Digest: dJHJQQJ8QmPb3ntWwQ0HyLcx6arhFmIOw7bpBHndPgI=
+

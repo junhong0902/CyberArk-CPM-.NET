@@ -1,0 +1,11 @@
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\bin\Debug\CPMPlugin-DLL.dll
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\bin\Debug\CPMPlugin-DLL.pdb
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\bin\Debug\CyberArk.Extensions.Plugins.Models.dll
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\bin\Debug\CyberArk.Extensions.Utilties.dll
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\bin\Debug\WebDriver.dll
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\bin\Debug\WebDriver.xml
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\obj\Debug\CPMPlugin-DLL.csproj.CoreCompileInputs.cache
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\obj\Debug\CPMPlugin-DLL.csproj.CopyComplete
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\obj\Debug\CPMPlugin-DLL.dll
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\obj\Debug\CPMPlugin-DLL.pdb
+C:\Users\junhong.choo\Documents\GitHub\CPM-Plugin-DLL\CPMPlugin-DLL\obj\Debug\CPMPlugin-DLL.csprojAssemblyReference.cache

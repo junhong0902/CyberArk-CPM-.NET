@@ -1,0 +1,22 @@
+<Device Name="">
+  <Policies>
+       <Policy ID="" PlatformBaseID="" PlatformBaseProtocol="" PlatformBaseType="" AutoChangeOnAdd="No" AutoVerifyOnAdd="No">
+          <Properties>
+            <Required>
+				        <Property Name="Username" />
+            </Required>
+            <Optional>
+				        <Property Name="Address" />
+			      </Optional>
+         </Properties>
+		 <LinkedPasswords>
+			  <Link Name="LogonAccount" PropertyIndex="1" />
+			  <Link Name="ReconcileAccount" PropertyIndex="3" />
+     </LinkedPasswords>
+		 <ConnectionComponents>
+			  <ConnectionComponent Id=""/>
+		 </ConnectionComponents>
+     <TicketingSystem EnterTicketingInfo="No" ValidateTicketNumber="No" />
+    </Policy>
+  </Policies>
+</Device>
