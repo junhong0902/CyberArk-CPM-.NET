@@ -1,0 +1,1 @@
+.\bin\CANetPluginInvoker.exe user.ini <verifypass,changepass,logon> <dll file in bin> <true for manual password>
