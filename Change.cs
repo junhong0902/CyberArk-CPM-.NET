@@ -4,6 +4,8 @@ using CyberArk.Extensions.Utilties.Logger;
 using CyberArk.Extensions.Utilties.Reader;
 using System;
 
+using HttpUtils;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
@@ -153,11 +155,13 @@ namespace CPMPlugin.DLL
                 System.Threading.Thread.Sleep(7000);
 
                 //After Login, close stupid pop up
+                /*
                 Console.WriteLine("Close pop up!");
                 cClick(driver, canvas, 690, 10);
                 System.Threading.Thread.Sleep(3000);
                 cSendKey(driver, Keys.Enter);
                 System.Threading.Thread.Sleep(2000);
+                */
 
                 //Change Password start here
                 Console.WriteLine("Click User Preference");
@@ -202,7 +206,46 @@ namespace CPMPlugin.DLL
                 cClick(driver, canvas, 740, 30);
                 System.Threading.Thread.Sleep(2000);
 
-                CPMCode = 0;
+
+
+                //Verify
+                Console.WriteLine("Verify stage");
+                string BASEURL = @"https://" + address + ":" + port + @"/Konfigurator/REST";
+                var client = new RestClient(BASEURL, HttpVerb.POST);
+
+                string parameter = @"/login?userName=" + username + @"&pass=" + targetAccountNewPassword;
+                Console.WriteLine(BASEURL + parameter);
+
+                try
+                {
+                    result = client.MakeRequest(parameter);
+                    Console.WriteLine(result);
+                    if (result.Trim().Contains("<entry><content>"))
+                    {
+                        CPMCode = 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (ex.ToString().Contains("401"))
+                    {
+                        CPMCode = 8100;
+                        platformOutput.Message = "Unauthorized";
+                        Console.WriteLine("Unauthorized");
+                    }
+                    else if (ex.ToString().Contains("connection fail"))
+                    {
+                        CPMCode = 8000;
+                        platformOutput.Message = "Connection failure";
+                        Console.WriteLine("Connection failure");
+                    }
+                    else
+                    {
+                        CPMCode = 8200;
+                        platformOutput.Message = "General error. Please try again or contact administrator.";
+                        Console.WriteLine("General error. Please try again or contact administrator.");
+                    }
+                }
             }
                 /////////////// Put your code here ////////////////////////////
                 #endregion Logic

@@ -7,8 +7,8 @@
     <ProjectGuid>{FC239E13-B268-42E8-8D2E-DB7C137DA1D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CPMPlugin_DLL</RootNamespace>
-    <AssemblyName>CPMPlugin-DLL</AssemblyName>
+    <RootNamespace>CPMPlugin.DLL</RootNamespace>
+    <AssemblyName>McAfee-DLL</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

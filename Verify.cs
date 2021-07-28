@@ -146,6 +146,12 @@ namespace CPMPlugin.DLL
                         platformOutput.Message = "Connection failure";
                         Console.WriteLine("Connection failure");
                     }
+                    else
+                    {
+                        CPMCode = 8200;
+                        platformOutput.Message = "General error. Please try again or contact administrator.";
+                        Console.WriteLine("General error. Please try again or contact administrator.");
+                    }
                 }
 
                 /*
