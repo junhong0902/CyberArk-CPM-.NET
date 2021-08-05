@@ -12,5 +12,5 @@ If button or link can directly be found via web-element, we directly perform cli
 As this plugin uses chrome driver, chrome driver path is mandatory and needs to be created in privateark client.
 ```
 Mandatory parameter: Username, Address, Port, ChromeDriverPath
-ChromeDriverPath is custom made parameter, need to update in privateark client
+ChromeDriverPath is a custom made parameter, need to update in privateark client
 ```
